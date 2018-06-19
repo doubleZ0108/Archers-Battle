@@ -21,9 +21,30 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="MyScene.cpp">
+    <ClCompile Include="Setting.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Start.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Help.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="BulletBase.cpp" />
+    <ClCompile Include="FontToUTF8.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlaying.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="MapChose.cpp" />
+    <ClCompile Include="PlayerChose.cpp" />
+    <ClCompile Include="ProgressView.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpProgress.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -35,9 +56,27 @@
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="MyScene.h">
+    <ClInclude Include="Setting.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="Start.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Help.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="BulletBase.h" />
+    <ClInclude Include="GamePlaying.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="MapChose.h" />
+    <ClInclude Include="PlayerChose.h" />
+    <ClInclude Include="ProgressView.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpProgress.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

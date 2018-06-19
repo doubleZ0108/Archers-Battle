@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextobjectid="27">
+ <tileset firstgid="1" name="perspective_walls" tilewidth="64" tileheight="64" tilecount="16" columns="4">
+  <image source="perspective_walls.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="17" name="blue" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="blue.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="21" name="ArcherBattle_TiledMap_1" tilewidth="32" tileheight="32" tilecount="128" columns="8">
+  <image source="meta.png" width="256" height="512"/>
+ </tileset>
+ <layer name="background" width="50" height="50" opacity="0.5">
+  <data encoding="base64" compression="zlib">
+   eJztzjENAAAIA7BZAP9iMcFBQo/+rSQFAAAAAAAAAADAS33gsGUAsBimBg==
+  </data>
+ </layer>
+ <layer name="wall" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmsEOwyAMQxn//9ETt2laGIkdFKgtVTs0tfvGRqKqvbX2OvwY6i2m6HVsr/71uTOb6SUOPJvpJQ48m+klDjyb6YVyVNHtHCszwC9FZomo1wrHaRIHdh3bSxx4NtNLHHg200sceDbTS/2jlsRRS6sc0ZnVIyQjsh471s6bkcXxrwY9b9WLw66Z/d5P4sg8b9WLgyfkmQSjfzB7SFRP6+fVNeOoxja7n6dweP/P6LPQmQ9zPRj7frRGHP57uJUjun9kcwx55lgmx2e2VZ+170a+i5W53srJ6hW7epA4fP7ZupFj93tf7GPoDU0vAkk=
+  </data>
+ </layer>
+ <layer name="meta" width="50" height="50" opacity="0.33">
+  <data encoding="base64" compression="zlib">
+   eJzt1jsWgDAIRNGs384duwE/GRiOGF9BpRhuJOg+xtgXik2MaJ77WThw4MCB41uOLnHliH4vnd9dJTfquKrB+Q+h5K7eV2q+sxYcOHDgwLG+o0vg6BWuf7aKWpQ1/uY4y8nck72OI+aI9goO+spVp+P9ZeeuY/au4nDuwZu1VDm6ue72+snRyZJ1KH3nOkdqvupwzANlbjsdSq8pNar34Mg7ovOj2jF7BiocSk1Rv+KY3YuntR2O2cjshbJ2NM/hqFgHR08H0SMO13RYMA==
+  </data>
+ </layer>
+</map>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="33" tileheight="33" infinite="0" nextobjectid="1">
+ <tileset firstgid="1" source="tmx_desert_spacing.png"/>
+ <layer name="块层 1" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt01EKwCAMA1BP0vsfc79j2KYqMxUTELYx9RG31pTbYmB839nt8p571h3p9RJ5M+tlxojPgvuRPaNvIlo/cjGHfPLJJ598NX2Rk21CHbJdOt87+qvsO6E/z8k2IS/bgHpkW7xzlU8++bCV7UEdZjpezXuP7Ln25v4Rc65n15idv/ofKErFPDjZcJ8=
+  </data>
+ </layer>
+ <layer name="块层 2" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt0TEKgDAQRNHUnmKK1N7/eCJoE4VNxDAr/gfTf3ZLAQDgHxZ3QKCnb+2cq6/HrMYv/PdcZl/pHFXdAQH6xtVmmWRs2o3eS/NSLp7cTBM63qKSr0/N3HSzTOQOCMgdEJA7AACAwwYMbAaF
+  </data>
+ </layer>
+</map>

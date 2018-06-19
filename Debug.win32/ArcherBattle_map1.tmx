@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="2018.05.24" orientation="orthogonal" renderorder="right-down" width="40" height="24" tilewidth="32" tileheight="30" infinite="0" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" source="grey.tsx"/>
+ <tileset firstgid="5" source="perspective_walls.tsx"/>
+ <layer id="1" name="Layer1" width="40" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzdlksOwjAMRBOn9z8zdIE0GmZsl0YgsbDSQmI7z7/OMUY8ZX6wTniv9jjJzuK66Mz5foj1tWfBmRB7eZ8T9lXZC9BV8WLdMTSDZWy4fR27qMvxOohRiN+UX91YK37urvyfup+KwUF2qxh3YoE6VYxcXjhua7zfW/GapItzeZLtDjfWxzr4OeOlfMv4hbChalPlCvuX5bvzzeUf10LGLcx+dx/XLzh/sxpXteK4Od86/Vxx4x7Aq2PZ6YN3uKFf2dzgXHbcmFmVZ24OZvlWzY8qrxXrSj/3cVenHX5qPijfuvdx8ay4dfipfqN6nPs2UPGseHX5qfmk+rHTi6xQutw6dYq9nn3n8yjs0xVeGb9O/8Ez+OzkKq8r/NRsVT15J687/DCGzO0upx38UHbx2cHvl+u3OPwrvwcNoglD
+  </data>
+ </layer>
+ <layer id="2" name="Layer2" width="40" height="24">
+  <data encoding="base64" compression="zlib">
+   eJztk9EJwDAIBf3pHo7maI6WUUrAQBETMKZgi/flq+TlKASgKIqsXACoMge6KKgzetCaJfNmJ0WcVBdas2Te6KOok+pDa5bMzi6K7Cdn0Jols6Nneffufz3o1xY7cotNnNSOnV3N+EZepzd5OmZzG3THrG5/Z/XOslCOZ/iCY1EMbroqEb8=
+  </data>
+ </layer>
+</map>

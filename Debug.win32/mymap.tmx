@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="2018.05.24" orientation="orthogonal" renderorder="right-down" width="40" height="24" tilewidth="32" tileheight="30" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" source="hexmini.tsx"/>
+ <layer id="1" name="Layer1" width="40" height="24">
+  <data encoding="base64" compression="zlib">
+   eJzt1LEKACAIRVEL/P9fjqBBJEMXlXjD3c+gj4mIEULoNEXVlptpNxoZpUmn3dnel80q0xm1ZRt/82XfYcTX9T+q99CzLxUuy1m5dwgh5G0BbfERAQ==
+  </data>
+ </layer>
+</map>
