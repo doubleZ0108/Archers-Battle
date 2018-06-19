@@ -11,14 +11,14 @@ class MapChose : public cocos2d::Layer, public cocos2d::network::SocketIO::SIODe
 {
 public:
 	SIOClient * _sioClient;
-
 	static cocos2d::Scene* createScene();
 
 	virtual bool init();
 	// a selector callback
 	void menuStartScene(cocos2d::Ref* pSender);
-	void ScenePrinter();
+
 	void NetworkPrinter();
+	void ScenePrinter();
 
 	//socket连接时调用
 	void onConnect(SIOClient* client);

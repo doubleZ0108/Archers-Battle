@@ -15,6 +15,7 @@ public:
 
     virtual bool init();
     
+	void Default_input();
 	void ScenePrinter();
 	void MusicPrinter();
     // a selector callback

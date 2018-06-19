@@ -1,7 +1,6 @@
 #include "MapChose.h"
 #include "Start.h"
 
-
 USING_NS_CC;
 
 extern bool language_flag;   //true->English   false->Chinese
@@ -32,10 +31,15 @@ bool MapChose::init()
 	{
 		return false;
 	}
-
-	ScenePrinter();
 	NetworkPrinter();
+	ScenePrinter();
+
 	return true;
+}
+
+void MapChose::NetworkPrinter()
+{
+	_sioClient = network::SocketIO::connect("http://120.78.208.162:2333", *this);
 }
 
 void MapChose::ScenePrinter()
@@ -214,10 +218,6 @@ void MapChose::ScenePrinter()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener3, pre_map3);
 }
 
-void MapChose::NetworkPrinter()
-{
-	_sioClient = network::SocketIO::connect("http://120.78.208.162:2333", *this);
-}
 
 void MapChose::menuStartScene(Ref* pSender)
 {
@@ -227,7 +227,6 @@ void MapChose::menuStartScene(Ref* pSender)
 }
 void MapChose::onConnect(SIOClient * client)
 {
-	log("success");
 }
 
 void MapChose::onMessage(SIOClient * client, const std::string & data)
@@ -240,4 +239,5 @@ void MapChose::onError(SIOClient * client, const std::string & data)
 
 void MapChose::onClose(SIOClient * client)
 {
+	log("Mapchose network close");
 }

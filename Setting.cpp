@@ -254,7 +254,7 @@ void SettingScene::SizePrinter()
 	auto *psizeword_small = MenuItemLabel::create(sizeword_small, this,
 		menu_selector(SettingScene::size_change_tosmall));
 	auto* size_button_small = Menu::create(psizeword_small, NULL);
-	x = rect.origin.x + rect.size.width*(4.5f / 10.0f);
+	x = rect.origin.x + rect.size.width*(4.8f / 10.0f);
 	y = rect.origin.y + rect.size.height*(1.0f / 3.0f);
 	size_button_small->setPosition(Vec2(x, y));
 	size_button_small->setColor(Color3B::BLACK);
@@ -291,7 +291,7 @@ void SettingScene::SizePrinter()
 	auto *psizeword_large = MenuItemLabel::create(sizeword_large, this,
 		menu_selector(SettingScene::size_change_tolarge));
 	auto* size_button_large = Menu::create(psizeword_large, NULL);
-	x = rect.origin.x + rect.size.width*(7.5f / 10.0f);
+	x = rect.origin.x + rect.size.width*(7.2f / 10.0f);
 	size_button_large->setPosition(Vec2(x, y));
 	size_button_large->setColor(Color3B::BLACK);
 	this->addChild(size_button_large);

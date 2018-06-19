@@ -16,8 +16,8 @@ public:
 	// a selector callback
 	void menuStartScene(cocos2d::Ref* pSender);
 
-	void ScenePrinter();
 	void NetworkPrinter();
+	void ScenePrinter();
 
 	void onConnect(SIOClient* client);
 	void onMessage(SIOClient* client, const std::string& data);

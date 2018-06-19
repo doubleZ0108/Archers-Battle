@@ -153,8 +153,15 @@ public:
 	void HP_grow(float dt);
 	void EXPjudge(const Vec2 &pos);
 	void EXP_grow(float dt);
+
+
+	void ID_judge(SIOClient* client, const std::string& data);
+
 	void HP_recieve(SIOClient* client, const std::string& data);
 	void EXP_recieve(SIOClient* client, const std::string& data);
+	void HP_remove(SIOClient* client, const std::string& data);
+	void EXP_remove(SIOClient* client, const std::string& data);
+
 	void tofindEat(const float x, const float y);
 	/////////////////////////////////////////
 

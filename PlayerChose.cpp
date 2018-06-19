@@ -34,10 +34,14 @@ bool PlayerChose::init()
 	{
 		return false;
 	}
-
-	ScenePrinter();
 	NetworkPrinter();
+	ScenePrinter();
 	return true;
+}
+
+void PlayerChose::NetworkPrinter()
+{
+	_sioClient = network::SocketIO::connect("http://120.78.208.162:2333", *this);
 }
 
 void PlayerChose::ScenePrinter()
@@ -169,10 +173,7 @@ void PlayerChose::ScenePrinter()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener2, pre_player2);
 	
 }
-void PlayerChose::NetworkPrinter()
-{
-	_sioClient = network::SocketIO::connect("http://120.78.208.162:2333", *this);
-}
+
 void PlayerChose::onConnect(SIOClient * client)
 {
 }

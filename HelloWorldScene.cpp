@@ -7,6 +7,7 @@ USING_NS_CC;
 
 bool language_flag = true;     //true->English   false->Chinese
 int is_paused = reply_music;   //关于is_paused的具体解释请见 "HelloWorldScene.h"
+double window_size = 1.0f;     //游戏窗口大小
 extern char *FontToUTF8(const char* font);
 //it is define in another .cpp file 
 //and it is used to change character
@@ -32,16 +33,30 @@ bool HelloWorld::init()
     {
         return false;
     }
-
+	Default_input();
 	//MusicPrinter();   //draw the background music
 	ScenePrinter();   //draw all the thing that player can see
 
     return true;
 }
+void HelloWorld::Default_input()
+{
+	auto* setting_deafult = UserDefault::getInstance();
+	if (setting_deafult->isXMLFileExist())
+	{
+		language_flag = setting_deafult->getIntegerForKey("language");
+		is_paused = setting_deafult->getIntegerForKey("music");
+		window_size = setting_deafult->getDoubleForKey("size");
+	}
+}
 void HelloWorld::ScenePrinter()
 {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	auto director = Director::getInstance();
+	auto glview = director->getOpenGLView();
+	glview->setFrameZoomFactor(window_size);
 
 	/////////////////////////////
 	// 2. add a menu item with "X" image, which is clicked to quit the program

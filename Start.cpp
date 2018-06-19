@@ -18,8 +18,9 @@ Scene* StartScene::createScene()
 	//正式进入游戏后会切换到新的游戏音乐，并把欢迎界面的音乐设为stop
 	//再次返回到欢迎界面的时候回从头播放音乐
 	//////////////////////////////////
-	auto scene = StartScene::create();
-	
+	auto scene = Scene::create();
+	auto layer = StartScene::create();
+	scene->addChild(layer);
 	return scene;
 }
 
@@ -35,15 +36,27 @@ bool StartScene::init()
 {
 	//////////////////////////////
 	// 1. super init first
-	if (!Scene::init())
+	if (!Layer::init())
 	{
 		return false;
 	}
-
 	ScenePrinter();
 
 	return true;
 }
+void StartScene::onConnect(SIOClient * client)
+{
+}
+void StartScene::onMessage(SIOClient * client, const std::string & data)
+{
+}
+void StartScene::onError(SIOClient * client, const std::string & data)
+{
+}
+void StartScene::onClose(SIOClient * client)
+{
+}
+
 void StartScene::ScenePrinter()
 {
 	auto visibleSize = Director::getInstance()->getVisibleSize();

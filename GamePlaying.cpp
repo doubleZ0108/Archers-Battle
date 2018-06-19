@@ -8,6 +8,7 @@
 #include <cstdio>
 #include <cstring>
 #include <string>
+
 USING_NS_CC;
 
 std::vector<HP_MESS> GamePlaying::hp_auto_arise;   //用于储存随机安置的回血道具的相关信息
@@ -26,7 +27,9 @@ int which_map = 3;
 int which_player = 1;
 
 bool magent = false;
-int viewsize = 1.0f;
+double viewsize = 1.0f;
+
+std::string ID;
 //it is define in another .cpp file 
 //and it is used to change character
 
@@ -53,21 +56,42 @@ bool GamePlaying::init()
 		return false;
 	}
 	NetworkPrinter();
+
+	std::string mess = "owner";
+	_sioClient->emit("owner", mess);
+	_sioClient->on("owner", CC_CALLBACK_2(GamePlaying::ID_judge, this));
+
 	MusicPrinter();
 	MapPrinter();
 	ScenePrinter();
 	SmallmapPrinter();
 	ModePrinter();
 
-	schedule(schedule_selector(GamePlaying::EXP_grow), 0.15f);
-	schedule(schedule_selector(GamePlaying::HP_grow), 2.0f);
 
-	//_sioClient->on("HP position", CC_CALLBACK_2(GamePlaying::HP_recieve, this));
-	//_sioClient->on("EXP position", CC_CALLBACK_2(GamePlaying::EXP_recieve, this));
-	//_sioClient->on("n_player keys", CC_CALLBACK_2(GamePlaying::runEvent_n, this));
+	if (ID != "guest")
+	{
+		schedule(schedule_selector(GamePlaying::EXP_grow), 0.15f);
+		schedule(schedule_selector(GamePlaying::HP_grow), 2.0f);
+	}
+
+	
+
+	if (ID == "guest")
+	{
+		_sioClient->on("HP position", CC_CALLBACK_2(GamePlaying::HP_recieve, this));
+		_sioClient->on("EXP position", CC_CALLBACK_2(GamePlaying::EXP_recieve, this));
+		
+	}
+	
+	_sioClient->on("HP remove", CC_CALLBACK_2(GamePlaying::HP_remove, this));
+	_sioClient->on("EXP remove", CC_CALLBACK_2(GamePlaying::EXP_remove, this));
+	_sioClient->on("n_player keys", CC_CALLBACK_2(GamePlaying::runEvent_n, this));
 	return true;
 }
-
+void GamePlaying::ID_judge(SIOClient * client, const std::string & data)
+{
+	ID = data;
+}
 void GamePlaying::MapPrinter()
 {
 	size = Director::getInstance()->getVisibleSize();
@@ -541,20 +565,20 @@ bool GamePlaying::up(bool flag,int ifxie)  //ifxie默认参数为false，默认是直着走
 					&& ((MAP_SIZE - y/viewsize) > size.height / 2))
 				{
 					tiledmap->setPositionY(tiledmap->getPositionY() 
-						- m_player->speed);//调整地图,使人物尽量居中
+						- m_player->speed*(viewsize==1.0? 1.0:1.2));//调整地图,使人物尽量居中
 				       //地图移动速度与人物移动速度保持一直，获得最佳游戏体验，尽享丝滑
-					y_move += m_player->speed;
+					y_move += m_player->speed*viewsize*(viewsize == 1.0 ? 1.0 : 1.2);
 				}
 			}
 			else if (1 == ifxie)
 			{
-				if ((y*viewsize + tiledmap->getPositionY() > size.height / 2) 
-					&& ((MAP_SIZE - y/viewsize) > size.height / 2))
+				if ((y + tiledmap->getPositionY() > size.height / 2) 
+					&& ((MAP_SIZE - y) > size.height / 2))
 				{
 					tiledmap->setPositionY(tiledmap->getPositionY()
-						- m_player->speed*XIE);
+						- m_player->speed*XIE/viewsize);
 					tiledmap->setPositionX(tiledmap->getPositionX()
-						- m_player->speed*XIE);
+						- m_player->speed*XIE/viewsize);
 					x_move += m_player->speed*XIE;
 					y_move += m_player->speed*XIE;
 				}
@@ -562,13 +586,13 @@ bool GamePlaying::up(bool flag,int ifxie)  //ifxie默认参数为false，默认是直着走
 			}
 			else if (2 == ifxie)
 			{
-				if ((y*viewsize + tiledmap->getPositionY() > size.height / 2) 
-					&& ((MAP_SIZE - y/viewsize) > size.height / 2))
+				if ((y + tiledmap->getPositionY() > size.height / 2) 
+					&& ((MAP_SIZE - y) > size.height / 2))
 				{
 					tiledmap->setPositionY(tiledmap->getPositionY()
-						- m_player->speed*XIE);
+						- m_player->speed*XIE/viewsize);
 					tiledmap->setPositionX(tiledmap->getPositionX()
-						+ m_player->speed*XIE);
+						+ m_player->speed*XIE/viewsize);
 					x_move -= m_player->speed*XIE;
 					y_move += m_player->speed*XIE;
 				}
@@ -613,7 +637,7 @@ bool GamePlaying::left(bool flag, int ifxie)
 			runEvent();
 			tofindEat(x, y);
 		}
-		if ((x + tiledmap->getPositionX() < size.width / 2) 
+		if ((x/viewsize + tiledmap->getPositionX() < size.width / 2) 
 			&& tiledmap->getPositionX() != 0)
 		{
 			tiledmap->setPositionX(tiledmap->getPositionX() 
@@ -639,12 +663,12 @@ bool GamePlaying::down(bool flag, int ifxie)
 
 			if (!ifxie)
 			{
-				if ((y + tiledmap->getPositionY() < size.height / 2) 
-					&& tiledmap->getPositionY() != 0)
+				if ((y*viewsize + tiledmap->getPositionY() < size.height / 2) 
+					&& tiledmap->getPositionY() != 0 )
 				{
 					tiledmap->setPositionY(tiledmap->getPositionY()
-						+ m_player->speed);
-					y_move -= m_player->speed;
+						+ m_player->speed*(viewsize == 1.0 ? 1.0 : 1.2));
+					y_move -= m_player->speed*(viewsize == 1.0 ? 1.0 : 1.2);
 				}
 			}
 			else if (1 == ifxie)
@@ -653,9 +677,9 @@ bool GamePlaying::down(bool flag, int ifxie)
 					&& tiledmap->getPositionY() != 0)
 				{
 					tiledmap->setPositionY(tiledmap->getPositionY()
-						+ m_player->speed*XIE);
+						+ m_player->speed*XIE/viewsize);
 					tiledmap->setPositionX(tiledmap->getPositionX()
-						- m_player->speed*XIE);
+						- m_player->speed*XIE/viewsize);
 					x_move += m_player->speed*XIE;
 					y_move -= m_player->speed*XIE;
 				}
@@ -666,9 +690,9 @@ bool GamePlaying::down(bool flag, int ifxie)
 					&& tiledmap->getPositionY() != 0)
 				{
 					tiledmap->setPositionY(tiledmap->getPositionY()
-						+ m_player->speed*XIE);
+						+ m_player->speed*XIE/viewsize);
 					tiledmap->setPositionX(tiledmap->getPositionX()
-						+ m_player->speed*XIE);
+						+ m_player->speed*XIE/viewsize);
 					x_move -= m_player->speed*XIE;
 					y_move -= m_player->speed*XIE;
 				}
@@ -712,6 +736,11 @@ void GamePlaying::HPjudge(const Vec2 &pos)
 		{
 			if (judgex == hp_now.savex && judgey == hp_now.savey)
 			{
+				char mess[10];
+				sprintf(mess, "%d %d", judgex, judgey);
+				std::string HP_pos = mess;
+				_sioClient->emit("HP remove", HP_pos);
+				
 				hp_now.hp_potion->removeFromParentAndCleanup(true);
 				auto hp_iter = std::find(hp_auto_arise.begin(), hp_auto_arise.end(), hp_now);
 				hp_auto_arise.erase(hp_iter, hp_iter+1);
@@ -756,10 +785,14 @@ void GamePlaying::HP_grow(float dt)
 			Vec2(spritex, spritey));
 		tiledmap->addChild(hp_auto_arise[now_vec_maxindex].hp_potion);
 
-		char HParr[20];
-		sprintf(HParr, "%d %d", metax, metay);
-		std::string HP_pos = HParr;
-		_sioClient->emit("HP position", HP_pos);
+		if (!(ID == "guest"))
+		{
+			char mess[10];
+			sprintf(mess, "%d %d", metax, metay);
+			std::string HP_pos = mess;
+			_sioClient->emit("HP position", HP_pos);
+		}
+		
 	}
 }
 void GamePlaying::EXPjudge(const Vec2 & pos)
@@ -780,6 +813,12 @@ void GamePlaying::EXPjudge(const Vec2 & pos)
 		{
 			if (judgex == exp_now.savex && judgey == exp_now.savey)
 			{
+
+				char mess[10];
+				sprintf(mess, "%d %d", judgex, judgey);
+				std::string EXP_pos = mess;
+				_sioClient->emit("EXP remove", EXP_pos);
+
 				exp_now.exp_potion->removeFromParentAndCleanup(true);
 				auto exp_iter = std::find(exp_auto_arise.begin(), exp_auto_arise.end(), exp_now);
 				exp_auto_arise.erase(exp_iter, exp_iter + 1);
@@ -823,15 +862,21 @@ void GamePlaying::EXP_grow(float dt)
 			Vec2(spritex, spritey));
 		tiledmap->addChild(exp_auto_arise[now_vec_maxindex].exp_potion);
 
-		char EXParr[20];
-		sprintf(EXParr, "%d %d", metax, metay);
-		std::string EXP_pos = EXParr;
-		_sioClient->emit("EXP position", EXP_pos);
+		if (!(ID == "guest"))
+		{
+			char mess[10];
+			sprintf(mess, "%d %d", metax, metay);
+			std::string EXP_pos = mess;
+			_sioClient->emit("EXP position", EXP_pos);
+		}
+		
 	}
 }
+
 void GamePlaying::HP_recieve(SIOClient * client, const std::string & data)
 {
-	int metax = data.c_str()[0] - '0', metay = data.c_str()[1] - '0';
+	int metax = (data.c_str()[0] - '0') * 10 + data.c_str()[1] - '0';
+	int metay = (data.c_str()[3] - '0') * 10 + data.c_str()[4] - '0';
 	int gid = meta->getTileGIDAt(Vec2(1.0*metax, 1.0*metay));
 	meta->setTileGID(HP_GID, Vec2(1.0*metax, 1.0*metay));
 
@@ -849,7 +894,8 @@ void GamePlaying::HP_recieve(SIOClient * client, const std::string & data)
 }
 void GamePlaying::EXP_recieve(SIOClient * client, const std::string & data)
 {
-	int metax = data.c_str()[0] - '0', metay = data.c_str()[1] - '0';
+	int metax = (data.c_str()[0] - '0') * 10 + data.c_str()[1] - '0';
+	int metay = (data.c_str()[3] - '0') * 10 + data.c_str()[4] - '0';
 	int gid = meta->getTileGIDAt(Vec2(1.0*metax, 1.0*metay));
 	meta->setTileGID(EXP_GID, Vec2(1.0*metax, 1.0*metay));
 
@@ -864,6 +910,40 @@ void GamePlaying::EXP_recieve(SIOClient * client, const std::string & data)
 	exp_auto_arise[now_vec_maxindex].exp_potion->setPosition(
 		Vec2(spritex, spritey));
 	tiledmap->addChild(exp_auto_arise[now_vec_maxindex].exp_potion);
+}
+void GamePlaying::HP_remove(SIOClient * client, const std::string & data)
+{
+	int judgex = (data.c_str()[0] - '0') * 10 + data.c_str()[1] - '0';
+	int judgey = (data.c_str()[3] - '0') * 10 + data.c_str()[4] - '0';
+
+	for (auto &hp_now : hp_auto_arise)
+	{
+		if (judgex == hp_now.savex && judgey == hp_now.savey)
+		{
+			hp_now.hp_potion->removeFromParentAndCleanup(true);
+			auto hp_iter = std::find(hp_auto_arise.begin(), hp_auto_arise.end(), hp_now);
+			hp_auto_arise.erase(hp_iter, hp_iter + 1);
+
+			break;
+		}
+	}
+}
+void GamePlaying::EXP_remove(SIOClient * client, const std::string & data)
+{
+	int judgex = (data.c_str()[0] - '0') * 10 + data.c_str()[1] - '0';
+	int judgey = (data.c_str()[3] - '0') * 10 + data.c_str()[4] - '0';
+
+	for (auto &exp_now : exp_auto_arise)
+	{
+		if (judgex == exp_now.savex && judgey == exp_now.savey)
+		{
+			exp_now.exp_potion->removeFromParentAndCleanup(true);
+			auto exp_iter = std::find(exp_auto_arise.begin(), exp_auto_arise.end(), exp_now);
+			exp_auto_arise.erase(exp_iter, exp_iter + 1);
+
+			break;
+		}
+	}
 }
 void GamePlaying::tofindEat(const float x, const float y)
 {
@@ -891,6 +971,8 @@ void GamePlaying::tofindEat(const float x, const float y)
 
 void GamePlaying::onConnect(SIOClient * client)
 {
+	std::string mess = "owner";
+	_sioClient->emit("owner", mess);
 }
 void GamePlaying::onMessage(SIOClient * client, const std::string & data)
 {
