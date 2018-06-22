@@ -1,6 +1,5 @@
 #ifndef _GAMEPLAYING_H_
 #define _GAMEPLAYING_H_
-
 #include "cocos2d.h"
 #include "Player.h"
 #include "BulletBase.h"
@@ -9,6 +8,7 @@
 #include <windows.h>  
 #include <vector>
 #include "network\SocketIO.h"
+
 
 #define KEY_DOWN(vk_code) (GetAsyncKeyState(vk_code) & 0x8000 ? 1 : 0)  
 #define KEY_UP(vk_code) (GetAsyncKeyState(vk_code) & 0x8000 ? 0 : 1)  
@@ -60,7 +60,7 @@ struct HP_MESS
 	//std::find()的内部实现应该是借用了==运算符
 	bool operator==(const HP_MESS &thv)
 	{
-		if(this->savex==thv.savex && this->savey==thv.savey)
+		if (this->savex == thv.savex && this->savey == thv.savey)
 		{
 			return true;
 		}
@@ -82,7 +82,7 @@ struct EXP_MESS
 		else { return false; }
 	}
 };
-class GamePlaying : public cocos2d::Layer, public cocos2d::network::SocketIO::SIODelegate
+class GamePlaying : public cocos2d::Layer, public cocos2d::network::SocketIO::SIODelegate //no need
 {
 private:
 
@@ -108,7 +108,7 @@ private:
 	static std::vector<HP_MESS> hp_auto_arise;
 	static std::vector<EXP_MESS> exp_auto_arise;
 public:
-	SIOClient * _sioClient;
+	SIOClient * sioClient=nullptr;
 	static cocos2d::Scene* createScene();
 
 	virtual bool init();
@@ -140,10 +140,10 @@ public:
 
 	////////////////////////////////////
 	//各个方向的判断和墙壁检测
-	bool up(bool flag, int ifxie=0); //true代表我需要调用runEvent函数实实在在的移动
-	bool right(bool flag, int ifxie=0);//false代表我只是想判断这个方向能不能走，其实不想移动
-	bool left(bool flag, int ifxie=0);
-	bool down(bool flag, int ifxie=0);
+	bool up(bool flag, int ifxie = 0); //true代表我需要调用runEvent函数实实在在的移动
+	bool right(bool flag, int ifxie = 0);//false代表我只是想判断这个方向能不能走，其实不想移动
+	bool left(bool flag, int ifxie = 0);
+	bool down(bool flag, int ifxie = 0);
 	bool isCanReach(float x, float y);
 	//////////////////////////////////
 
@@ -161,16 +161,20 @@ public:
 	void EXP_recieve(SIOClient* client, const std::string& data);
 	void HP_remove(SIOClient* client, const std::string& data);
 	void EXP_remove(SIOClient* client, const std::string& data);
+	void test(SIOClient* client, const std::string& data);
+
+	void DeCode_from_Server(const std::string & buf, int & metax, int & metay);
 
 	void tofindEat(const float x, const float y);
 	/////////////////////////////////////////
 
 	////////////////////////////////
-	//network
-	void onConnect(SIOClient* client);
-	void onMessage(SIOClient* client, const std::string& data);
-	void onError(SIOClient* client, const std::string& data);
-	void onClose(SIOClient* client);
+	//network maybe no need
+	virtual void onConnect(SIOClient* client);
+	virtual void onMessage(SIOClient* client, const std::string& data);
+	virtual void onError(SIOClient* client, const std::string& data);
+	virtual void onClose(SIOClient* client);
+
 	/////////////////////////////
 
 	// implement the "static create()" method manually

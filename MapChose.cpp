@@ -1,6 +1,7 @@
 #include "MapChose.h"
 #include "Start.h"
 
+
 USING_NS_CC;
 
 extern bool language_flag;   //true->English   false->Chinese
@@ -8,6 +9,8 @@ extern char *FontToUTF8(const char* font);
 //it is define in another .cpp file 
 //and it is used to change character
 extern int which_map;
+
+
 
 Scene* MapChose::createScene()
 {
@@ -31,15 +34,12 @@ bool MapChose::init()
 	{
 		return false;
 	}
-	NetworkPrinter();
+
+
+
 	ScenePrinter();
-
+	NetworkPrinter();
 	return true;
-}
-
-void MapChose::NetworkPrinter()
-{
-	_sioClient = network::SocketIO::connect("http://120.78.208.162:2333", *this);
 }
 
 void MapChose::ScenePrinter()
@@ -136,7 +136,12 @@ void MapChose::ScenePrinter()
 		log("which_map %d", which_map);
 
 		////////////////////////////
-		_sioClient->emit("mapchose", "1");
+		if (_sioClient)
+		{
+
+			_sioClient->emit("mapchose", "1");	
+
+		}
 		//////////////////////////
 
 		_eventDispatcher->removeEventListener(listener1);
@@ -175,6 +180,7 @@ void MapChose::ScenePrinter()
 		target->setOpacity(255);
 		which_map = 2;
 		log("which_map %d", which_map);
+		if (_sioClient)
 		_sioClient->emit("mapchose", "2");
 		_eventDispatcher->removeEventListener(listener2);
 	};
@@ -212,12 +218,26 @@ void MapChose::ScenePrinter()
 		target->setOpacity(255);
 		which_map = 3;
 		log("which_map %d", which_map);
+		if (_sioClient)
 		_sioClient->emit("mapchose", "3");
 		_eventDispatcher->removeEventListener(listener2);
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener3, pre_map3);
 }
 
+void MapChose::NetworkPrinter()
+{
+	_sioClient = SocketIO::connect("http://120.78.208.162:2333", *this);
+	SocketIO::SIODelegate * Delegate = nullptr;
+	Delegate = _sioClient->getDelegate();
+	log("MapChose %p", Delegate);
+	if (!SIOClient::setconnect(_sioClient, 1/*, Delegate*/))
+	{
+		_sioClient = nullptr;
+	}
+	_sioClient->on("test", CC_CALLBACK_2(MapChose::test, this));
+
+}
 
 void MapChose::menuStartScene(Ref* pSender)
 {
@@ -227,6 +247,7 @@ void MapChose::menuStartScene(Ref* pSender)
 }
 void MapChose::onConnect(SIOClient * client)
 {
+	log("success");
 }
 
 void MapChose::onMessage(SIOClient * client, const std::string & data)
@@ -239,5 +260,8 @@ void MapChose::onError(SIOClient * client, const std::string & data)
 
 void MapChose::onClose(SIOClient * client)
 {
-	log("Mapchose network close");
+}
+void MapChose::test(SIOClient * client, const std::string & data)
+{
+	log("recieve test codes");
 }
